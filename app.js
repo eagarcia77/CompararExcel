@@ -3,11 +3,25 @@ document.getElementById('excelForm').addEventListener('submit', function(event) 
     const file1 = document.getElementById('file1').files[0];
     const file2 = document.getElementById('file2').files[0];
 
-    if (file1 && file2) {
+    if (file1 && file2 && validateFiles(file1, file2)) {
         document.getElementById('loadingSpinner').style.display = 'block';
+        document.getElementById('progressBar').style.display = 'block';
         readExcelFiles(file1, file2);
     }
 });
+
+function validateFiles(file1, file2) {
+    const validExtensions = ['xlsx', 'xls'];
+    const file1Extension = file1.name.split('.').pop();
+    const file2Extension = file2.name.split('.').pop();
+
+    if (!validExtensions.includes(file1Extension) || !validExtensions.includes(file2Extension)) {
+        alert('Por favor, sube archivos en formato Excel (.xlsx o .xls).');
+        return false;
+    }
+
+    return true;
+}
 
 function readExcelFiles(file1, file2) {
     const reader1 = new FileReader();
@@ -50,7 +64,7 @@ function showPreview(sheet, tableId) {
     
     const keys = Object.keys(sheet[0]);
     
-    // Head
+    // Crear encabezado de tabla
     const trHead = document.createElement('tr');
     keys.forEach(key => {
         const th = document.createElement('th');
@@ -59,7 +73,7 @@ function showPreview(sheet, tableId) {
     });
     thead.appendChild(trHead);
     
-    // Body
+    // Crear cuerpo de tabla con las primeras 10 filas
     sheet.slice(0, 10).forEach(row => {
         const tr = document.createElement('tr');
         keys.forEach(key => {
@@ -89,21 +103,30 @@ function setupColumnSelect(sheet) {
     });
 }
 
+function updateProgress(percent) {
+    document.getElementById('progressPercent').innerText = `${percent}%`;
+    document.getElementById('progressBarFill').style.width = `${percent}%`;
+}
+
 function compareSheets(sheet1, sheet2, selectedColumns) {
     const result = [];
-    const sheet2Strings = sheet2.map(row => JSON.stringify(selectedColumns.reduce((obj, key) => {
+    const sheet2Map = new Set(sheet2.map(row => JSON.stringify(selectedColumns.reduce((obj, key) => {
         obj[key] = row[key];
         return obj;
-    }, {})));
-
-    sheet1.forEach(row => {
+    }, {}))));
+    
+    sheet1.forEach((row, index) => {
         const rowString = JSON.stringify(selectedColumns.reduce((obj, key) => {
             obj[key] = row[key];
             return obj;
         }, {}));
-        if (!sheet2Strings.includes(rowString)) {
+        if (!sheet2Map.has(rowString)) {
             result.push(row);
         }
+
+        // Actualizar progreso
+        const percent = Math.floor((index / sheet1.length) * 100);
+        updateProgress(percent);
     });
 
     displayResults(result);
@@ -113,6 +136,36 @@ function displayResults(result) {
     if (result.length > 0) {
         document.getElementById('statusMessage').innerText = `Se encontraron ${result.length} filas no repetidas.`;
         document.getElementById('resultSection').style.display = 'block';
+        
+        // Crear tabla de resultados
+        const table = document.createElement('table');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+
+        const keys = Object.keys(result[0]);
+        const trHead = document.createElement('tr');
+        keys.forEach(key => {
+            const th = document.createElement('th');
+            th.innerText = key;
+            trHead.appendChild(th);
+        });
+        thead.appendChild(trHead);
+
+        result.forEach(row => {
+            const tr = document.createElement('tr');
+            keys.forEach(key => {
+                const td = document.createElement('td');
+                td.innerText = row[key] || '';
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        document.getElementById('resultTable').innerHTML = '';
+        document.getElementById('resultTable').appendChild(table);
+
         document.getElementById('downloadReport').style.display = 'block';
         generateReport(result);
     } else {
