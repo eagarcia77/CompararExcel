@@ -111,7 +111,18 @@ footer {
     font-size: 0.9rem;
 }
 
+/* Mejora de compatibilidad para móviles */
 @media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 12px 8px;
+    }
+
     main {
         padding: 1rem;
     }
