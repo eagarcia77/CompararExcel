@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página para comparar dos archivos Excel y descargar un reporte de las filas que no se repiten.">
+    <title>Comparador de Excel Mejorado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Comparador de Excel</h1>
+        <p>Sube dos archivos Excel, selecciona las columnas a comparar, y obtén un reporte con las filas que no se repiten.</p>
+    </header>
+
+    <main>
+        <form id="excelForm">
+            <div class="upload-section">
+                <label for="file1">Sube el primer archivo Excel:</label>
+                <input type="file" id="file1" accept=".xlsx, .xls" required>
+            </div>
+
+            <div class="upload-section">
+                <label for="file2">Sube el segundo archivo Excel:</label>
+                <input type="file" id="file2" accept=".xlsx, .xls" required>
+            </div>
+
+            <div id="columnSelect" style="display:none;">
+                <label for="columns">Selecciona las columnas para comparar:</label>
+                <select id="columns" multiple></select>
+            </div>
+
+            <button type="submit">Comparar Archivos</button>
+        </form>
+
+        <div id="previewSection">
+            <h3>Vista previa de los archivos subidos:</h3>
+            <div id="previewTable1" class="preview-table"></div>
+            <div id="previewTable2" class="preview-table"></div>
+        </div>
+
+        <div id="resultSection" style="display:none;">
+            <p id="statusMessage"></p>
+            <div id="resultTable"></div>
+            <button id="downloadReport" style="display:none;">Descargar Reporte</button>
+        </div>
+
+        <div id="loadingSpinner" style="display:none;">
+            <p>Comparando archivos...</p>
+            <div class="spinner"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Eduardo Augusto García Rodríguez. Desarrollado con accesibilidad y estilo minimalista - Inspirado en Apple</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
