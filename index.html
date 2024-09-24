@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- 
+    Autor: Eduardo Augusto García Rodríguez
+    Contacto: eagarcia77@gmail.com
+    Descripción: Página para comparar dos archivos Excel y descargar un reporte de las filas que no se repiten.
+    Copyright 2024
+    -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Página para comparar dos archivos Excel y descargar un reporte de las filas que no se repiten.">
@@ -8,12 +14,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Encabezado de la página que incluye el título y la descripción de la funcionalidad -->
+    <!-- Page header that includes the title and description of the functionality -->
     <header>
         <h1>Comparador de Excel</h1>
         <p>Sube dos archivos Excel, selecciona las columnas a comparar, y obtén un reporte con las filas que no se repiten.</p>
     </header>
 
     <main>
+        <!-- Formulario para subir los archivos Excel -->
+        <!-- Form to upload Excel files -->
         <form id="excelForm">
             <div class="upload-section">
                 <label for="file1">Sube el primer archivo Excel:</label>
@@ -25,14 +35,20 @@
                 <input type="file" id="file2" accept=".xlsx, .xls" required>
             </div>
 
+            <!-- Sección para seleccionar columnas específicas para la comparación -->
+            <!-- Section to select specific columns for comparison -->
             <div id="columnSelect" style="display:none;">
                 <label for="columns">Selecciona las columnas para comparar:</label>
                 <select id="columns" multiple></select>
             </div>
 
+            <!-- Botón para iniciar la comparación -->
+            <!-- Button to start the comparison -->
             <button type="submit">Comparar Archivos</button>
         </form>
 
+        <!-- Barra de progreso para mostrar el estado del procesamiento -->
+        <!-- Progress bar to show the processing status -->
         <div id="progressBar" style="display: none;">
             <p>Progreso: <span id="progressPercent">0%</span></p>
             <div style="background-color: #e0e0e0; width: 100%; height: 20px;">
@@ -40,28 +56,38 @@
             </div>
         </div>
 
+        <!-- Sección de vista previa de los archivos subidos -->
+        <!-- Preview section for uploaded files -->
         <div id="previewSection">
             <h3>Vista previa de los archivos subidos:</h3>
             <div id="previewTable1" class="preview-table"></div>
             <div id="previewTable2" class="preview-table"></div>
         </div>
 
+        <!-- Sección de resultados donde se muestran las filas no repetidas -->
+        <!-- Results section where non-repeated rows are shown -->
         <div id="resultSection" style="display:none;">
             <p id="statusMessage"></p>
             <div id="resultTable"></div>
             <button id="downloadReport" style="display:none;">Descargar Reporte</button>
         </div>
 
+        <!-- Spinner de carga mientras se realiza la comparación -->
+        <!-- Loading spinner displayed while comparison is in progress -->
         <div id="loadingSpinner" style="display:none;">
             <p>Comparando archivos...</p>
             <div class="spinner"></div>
         </div>
     </main>
 
+    <!-- Pie de página con derechos de autor -->
+    <!-- Footer with copyright information -->
     <footer>
         <p>&copy; 2024 Eduardo Augusto García Rodríguez. Todos los derechos reservados. Desarrollado con accesibilidad</p>
     </footer>
 
+    <!-- Importar biblioteca XLSX para procesar archivos Excel -->
+    <!-- Import XLSX library to handle Excel files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script src="app.js"></script>
 </body>
