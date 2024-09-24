@@ -2,7 +2,7 @@
  * Autor: Eduardo Augusto García Rodríguez
  * Contacto: eagarcia77@gmail.com
  * Descripción: Este archivo compara dos archivos Excel permitiendo seleccionar las columnas a comparar y muestra las filas no repetidas.
- * Copyright 2024
+ * Copyright 2023
  */
 
 document.getElementById('excelForm').addEventListener('submit', function(event) {
@@ -123,7 +123,7 @@ function compareSheets(sheet1, sheet2) {
 }
 
 /**
- * Muestra los resultados de la comparación en una tabla.
+ * Muestra los resultados de la comparación en una tabla y habilita la descarga del reporte.
  */
 function displayResults(result) {
     const resultSection = document.getElementById('resultSection');
@@ -162,8 +162,23 @@ function displayResults(result) {
         table.appendChild(thead);
         table.appendChild(tbody);
         resultTable.appendChild(table);
+
+        document.getElementById('downloadReport').style.display = 'block'; // Mostrar botón de descarga
+        generateReport(result); // Permitir la descarga del reporte
     } else {
         document.getElementById('statusMessage').innerText = "No se encontraron filas no repetidas.";
         resultSection.style.display = 'none';
     }
+}
+
+/**
+ * Genera un archivo Excel con los resultados de las filas no repetidas.
+ */
+function generateReport(data) {
+    document.getElementById('downloadReport').addEventListener('click', function() {
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Reporte');
+        XLSX.writeFile(wb, 'reporte_no_repetidos.xlsx'); // Descargar archivo Excel
+    });
 }
