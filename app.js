@@ -1,3 +1,12 @@
+/**
+ * @author Eduardo Augusto García Rodríguez
+ * @contact eagarcia77@gmail.com
+ * @description Este archivo compara dos archivos Excel y muestra las filas no repetidas.
+ * @copyright 2024
+ * 
+ * @brief Compares two Excel files, showing rows that don't match and allowing users to download a report.
+ */
+
 document.getElementById('excelForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const file1 = document.getElementById('file1').files[0];
@@ -10,6 +19,10 @@ document.getElementById('excelForm').addEventListener('submit', function(event) 
     }
 });
 
+/**
+ * Función para validar que los archivos sean de tipo Excel (.xlsx, .xls).
+ * Checks if the files uploaded are Excel files (.xlsx or .xls).
+ */
 function validateFiles(file1, file2) {
     const validExtensions = ['xlsx', 'xls'];
     const file1Extension = file1.name.split('.').pop();
@@ -23,6 +36,10 @@ function validateFiles(file1, file2) {
     return true;
 }
 
+/**
+ * Lee los archivos Excel y prepara los datos para la comparación.
+ * Reads the Excel files and prepares the data for comparison.
+ */
 function readExcelFiles(file1, file2) {
     const reader1 = new FileReader();
     const reader2 = new FileReader();
@@ -56,6 +73,10 @@ function readExcelFiles(file1, file2) {
     reader1.readAsArrayBuffer(file1);
 }
 
+/**
+ * Muestra una vista previa de los primeros 10 registros de la hoja de Excel.
+ * Shows a preview of the first 10 rows from the Excel sheet.
+ */
 function showPreview(sheet, tableId) {
     const tableContainer = document.getElementById(tableId);
     const table = document.createElement('table');
@@ -64,7 +85,7 @@ function showPreview(sheet, tableId) {
     
     const keys = Object.keys(sheet[0]);
     
-    // Crear encabezado de tabla
+    // Crear encabezado de tabla / Create table headers
     const trHead = document.createElement('tr');
     keys.forEach(key => {
         const th = document.createElement('th');
@@ -73,7 +94,7 @@ function showPreview(sheet, tableId) {
     });
     thead.appendChild(trHead);
     
-    // Crear cuerpo de tabla con las primeras 10 filas
+    // Crear cuerpo de tabla / Create table body
     sheet.slice(0, 10).forEach(row => {
         const tr = document.createElement('tr');
         keys.forEach(key => {
@@ -90,6 +111,10 @@ function showPreview(sheet, tableId) {
     tableContainer.appendChild(table);
 }
 
+/**
+ * Configura las opciones para seleccionar las columnas que se van a comparar.
+ * Sets up options for selecting columns to be compared.
+ */
 function setupColumnSelect(sheet) {
     const columnSelect = document.getElementById('columns');
     columnSelect.innerHTML = '';
@@ -103,11 +128,19 @@ function setupColumnSelect(sheet) {
     });
 }
 
+/**
+ * Actualiza la barra de progreso mientras se procesa la comparación.
+ * Updates the progress bar during the comparison process.
+ */
 function updateProgress(percent) {
     document.getElementById('progressPercent').innerText = `${percent}%`;
     document.getElementById('progressBarFill').style.width = `${percent}%`;
 }
 
+/**
+ * Compara las hojas de Excel y muestra los resultados.
+ * Compares the Excel sheets and displays the results.
+ */
 function compareSheets(sheet1, sheet2, selectedColumns) {
     const result = [];
     const sheet2Map = new Set(sheet2.map(row => JSON.stringify(selectedColumns.reduce((obj, key) => {
@@ -124,7 +157,7 @@ function compareSheets(sheet1, sheet2, selectedColumns) {
             result.push(row);
         }
 
-        // Actualizar progreso
+        // Actualizar progreso / Update progress
         const percent = Math.floor((index / sheet1.length) * 100);
         updateProgress(percent);
     });
@@ -132,12 +165,16 @@ function compareSheets(sheet1, sheet2, selectedColumns) {
     displayResults(result);
 }
 
+/**
+ * Muestra los resultados de las filas no repetidas en una tabla.
+ * Displays the non-repeated rows in a table.
+ */
 function displayResults(result) {
     if (result.length > 0) {
         document.getElementById('statusMessage').innerText = `Se encontraron ${result.length} filas no repetidas.`;
         document.getElementById('resultSection').style.display = 'block';
         
-        // Crear tabla de resultados
+        // Crear tabla de resultados / Create results table
         const table = document.createElement('table');
         const thead = document.createElement('thead');
         const tbody = document.createElement('tbody');
@@ -173,6 +210,10 @@ function displayResults(result) {
     }
 }
 
+/**
+ * Genera un archivo Excel con los resultados de las filas no repetidas.
+ * Generates an Excel file with the non-repeated rows.
+ */
 function generateReport(data) {
     document.getElementById('downloadReport').addEventListener('click', function() {
         const ws = XLSX.utils.json_to_sheet(data);
