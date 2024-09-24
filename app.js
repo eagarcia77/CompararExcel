@@ -2,9 +2,10 @@
  * Autor: Eduardo Augusto García Rodríguez
  * Contacto: eagarcia77@gmail.com
  * Descripción: Este archivo compara dos archivos Excel permitiendo seleccionar las columnas a comparar y muestra las filas no repetidas.
- * Copyright 2024
+ * Copyright 2023
  */
 
+// Evento para el primer archivo
 document.getElementById('file1').addEventListener('change', function(event) {
     const file1 = event.target.files[0];
     if (file1 && validateFiles(file1)) {
@@ -12,6 +13,7 @@ document.getElementById('file1').addEventListener('change', function(event) {
     }
 });
 
+// Evento para el segundo archivo
 document.getElementById('file2').addEventListener('change', function(event) {
     const file2 = event.target.files[0];
     if (file2 && validateFiles(file2)) {
@@ -20,7 +22,7 @@ document.getElementById('file2').addEventListener('change', function(event) {
 });
 
 /**
- * Función para validar que los archivos sean de tipo Excel (.xlsx, .xls).
+ * Validación de los archivos Excel.
  */
 function validateFiles(file) {
     const validExtensions = ['xlsx', 'xls'];
@@ -35,7 +37,7 @@ function validateFiles(file) {
 }
 
 /**
- * Función para leer un archivo Excel y mostrar las columnas disponibles.
+ * Lee un archivo Excel y muestra las columnas disponibles.
  */
 function readExcelFile(file, columnSelectId, containerId) {
     const reader = new FileReader();
@@ -52,7 +54,7 @@ function readExcelFile(file, columnSelectId, containerId) {
 }
 
 /**
- * Función para configurar las opciones de selección de columnas para cada archivo.
+ * Configura las opciones de selección de columnas para cada archivo.
  */
 function setupColumnSelect(sheet, columnSelectId, containerId) {
     const columnSelect = document.getElementById(columnSelectId);
@@ -72,7 +74,7 @@ function setupColumnSelect(sheet, columnSelectId, containerId) {
 }
 
 /**
- * Al hacer clic en "Comparar Archivos", se obtienen las columnas seleccionadas y se realiza la comparación.
+ * Comparar archivos al enviar el formulario.
  */
 document.getElementById('excelForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -95,7 +97,7 @@ document.getElementById('excelForm').addEventListener('submit', function(event) 
 });
 
 /**
- * Función para leer ambos archivos Excel y realizar la comparación de las columnas seleccionadas.
+ * Lee ambos archivos Excel y compara las columnas seleccionadas.
  */
 function readAndCompareExcelFiles(file1, file2, selectedColumn1, selectedColumn2) {
     const reader1 = new FileReader();
@@ -121,7 +123,7 @@ function readAndCompareExcelFiles(file1, file2, selectedColumn1, selectedColumn2
 }
 
 /**
- * Función para comparar las columnas seleccionadas de los dos archivos Excel.
+ * Compara las columnas seleccionadas de ambos archivos Excel.
  */
 function compareSheets(sheet1, sheet2, selectedColumn1, selectedColumn2) {
     const result = [];
@@ -140,7 +142,7 @@ function compareSheets(sheet1, sheet2, selectedColumn1, selectedColumn2) {
 }
 
 /**
- * Muestra los resultados de la comparación en una tabla y habilita la descarga del reporte.
+ * Muestra los resultados de la comparación y permite descargar el reporte.
  */
 function displayResults(result) {
     const resultSection = document.getElementById('resultSection');
@@ -181,7 +183,7 @@ function displayResults(result) {
         resultTable.appendChild(table);
 
         document.getElementById('downloadReport').style.display = 'block'; // Mostrar botón de descarga
-        generateReport(result); // Permitir la descarga del reporte
+        generateReport(result); // Generar el reporte descargable
     } else {
         document.getElementById('statusMessage').innerText = "No se encontraron filas no repetidas.";
         resultSection.style.display = 'none';
