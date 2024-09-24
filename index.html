@@ -4,7 +4,7 @@
     <!-- 
     Autor: Eduardo Augusto García Rodríguez
     Contacto: eagarcia77@gmail.com
-    Descripción: Página para comparar dos archivos Excel y descargar un reporte de las filas que no se repiten.
+    Descripción: Página para comparar dos archivos Excel y seleccionar las columnas a comparar.
     Copyright 2024
     -->
     <meta charset="UTF-8">
@@ -18,7 +18,7 @@
     <!-- Page header that includes the title and description of the functionality -->
     <header>
         <h1>Comparador de Excel</h1>
-        <p>Sube dos archivos Excel, selecciona las columnas a comparar, y obtén un reporte con las filas que no se repiten.</p>
+        <p>Sube dos archivos Excel, selecciona las columnas que quieres comparar, y obtén un reporte con las filas que no se repiten.</p>
     </header>
 
     <main>
@@ -30,16 +30,23 @@
                 <input type="file" id="file1" accept=".xlsx, .xls" required>
             </div>
 
+            <!-- Selección de columna para el primer archivo -->
+            <!-- Column selection for the first file -->
+            <div id="selectColumn1" style="display: none;">
+                <label for="column1">Selecciona la columna para el primer archivo:</label>
+                <select id="column1"></select>
+            </div>
+
             <div class="upload-section">
                 <label for="file2">Sube el segundo archivo Excel:</label>
                 <input type="file" id="file2" accept=".xlsx, .xls" required>
             </div>
 
-            <!-- Sección para seleccionar columnas específicas para la comparación -->
-            <!-- Section to select specific columns for comparison -->
-            <div id="columnSelect" style="display:none;">
-                <label for="columns">Selecciona las columnas para comparar:</label>
-                <select id="columns" multiple></select>
+            <!-- Selección de columna para el segundo archivo -->
+            <!-- Column selection for the second file -->
+            <div id="selectColumn2" style="display: none;">
+                <label for="column2">Selecciona la columna para el segundo archivo:</label>
+                <select id="column2"></select>
             </div>
 
             <!-- Botón para iniciar la comparación -->
@@ -83,7 +90,7 @@
     <!-- Pie de página con derechos de autor -->
     <!-- Footer with copyright information -->
     <footer>
-        <p>&copy; 2024 Eduardo Augusto García Rodríguez. Todos los derechos reservados. Desarrollado con accesibilidad</p>
+        <p>&copy; 2024 Eduardo Augusto García Rodríguez. Todos los derechos reservados. Desarrollado con accesibilidad.</p>
     </footer>
 
     <!-- Importar biblioteca XLSX para procesar archivos Excel -->
