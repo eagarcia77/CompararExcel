@@ -14,50 +14,73 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Accesibilidad: Usamos encabezados descriptivos -->
     <header>
         <h1>Comparador de Excel</h1>
         <p>Sube dos archivos Excel, selecciona las columnas que quieres comparar, y obtén un reporte con las filas que no se repiten.</p>
     </header>
 
     <main>
+        <!-- Formulario para subir los archivos Excel -->
         <form id="excelForm">
             <div class="upload-section">
-                <label for="file1">Sube el primer archivo Excel:</label>
-                <input type="file" id="file1" accept=".xlsx, .xls" required>
+                <label for="file1" aria-label="Sube el primer archivo Excel">Sube el primer archivo Excel:</label>
+                <input type="file" id="file1" accept=".xlsx, .xls" aria-labelledby="file1" required>
             </div>
 
             <!-- Selección de columna para el primer archivo -->
             <div id="selectColumn1" style="display: none;">
                 <label for="column1">Selecciona la columna para el primer archivo:</label>
-                <select id="column1"></select>
+                <select id="column1" aria-label="Columna del primer archivo"></select>
             </div>
 
             <div class="upload-section">
-                <label for="file2">Sube el segundo archivo Excel:</label>
-                <input type="file" id="file2" accept=".xlsx, .xls" required>
+                <label for="file2" aria-label="Sube el segundo archivo Excel">Sube el segundo archivo Excel:</label>
+                <input type="file" id="file2" accept=".xlsx, .xls" aria-labelledby="file2" required>
             </div>
 
             <!-- Selección de columna para el segundo archivo -->
             <div id="selectColumn2" style="display: none;">
                 <label for="column2">Selecciona la columna para el segundo archivo:</label>
-                <select id="column2"></select>
+                <select id="column2" aria-label="Columna del segundo archivo"></select>
             </div>
 
-            <button type="submit">Comparar Archivos</button>
+            <!-- Botón para iniciar la comparación -->
+            <button type="submit" aria-label="Comparar archivos Excel">Comparar Archivos</button>
+            <button type="reset" id="resetButton" style="margin-left: 10px;" aria-label="Restablecer el formulario">Reiniciar</button> <!-- Nuevo botón para reiniciar -->
         </form>
 
+        <!-- Barra de progreso para mostrar el estado del procesamiento -->
+        <div id="progressBar" style="display: none;">
+            <p id="progressText" aria-label="Progreso de procesamiento">Progreso: <span id="progressPercent">0%</span></p>
+            <div style="background-color: #e0e0e0; width: 100%; height: 20px;">
+                <div id="progressBarFill" style="background-color: #0071e3; height: 100%; width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Sección de vista previa de los archivos subidos -->
+        <div id="previewSection">
+            <h3>Vista previa de los archivos subidos:</h3>
+            <div id="previewTable1" class="preview-table"></div>
+            <div id="previewTable2" class="preview-table"></div>
+        </div>
+
+        <!-- Sección de resultados donde se muestran las filas no repetidas -->
         <div id="resultSection" style="display:none;">
             <p id="statusMessage"></p>
             <div id="resultTable"></div>
-            <button id="downloadReport" style="display:none;">Descargar Reporte</button>
+            <!-- Botón para descargar el reporte -->
+            <button id="downloadReport" style="display:none;" aria-label="Descargar reporte">Descargar Reporte</button>
         </div>
 
+        <!-- Spinner de carga mientras se realiza la comparación -->
         <div id="loadingSpinner" style="display:none;">
             <p>Comparando archivos...</p>
             <div class="spinner"></div>
         </div>
     </main>
 
+    <!-- Pie de página con derechos de autor -->
     <footer>
         <p>&copy; 2023 Eduardo Augusto García Rodríguez. Desarrollado con accesibilidad y estilo minimalista - Inspirado en Apple</p>
     </footer>
